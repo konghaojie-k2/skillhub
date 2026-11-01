@@ -1,0 +1,344 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Model Eval Viz Configuration",
+  "description": "Schema for .model-eval-viz.json configuration",
+  "type": "object",
+  "required": ["version", "charts"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration version",
+      "const": "1.0"
+    },
+    "description": {
+      "type": "string",
+      "description": "Chart description"
+    },
+    "charts": {
+      "type": "array",
+      "description": "Array of chart configurations",
+      "items": {
+        "$ref": "#/definitions/Chart"
+      }
+    },
+    "global_settings": {
+      "$ref": "#/definitions/GlobalSettings"
+    }
+  },
+  "definitions": {
+    "Chart": {
+      "type": "object",
+      "required": ["id", "title", "type", "x_axis", "y_axis", "series"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique chart identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Chart display title"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether chart is active",
+          "default": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Chart type",
+          "enum": ["line", "bar", "scatter", "area"]
+        },
+        "x_axis": {
+          "$ref": "#/definitions/AxisConfig"
+        },
+        "y_axis": {
+          "$ref": "#/definitions/AxisConfig"
+        },
+        "y_axis2": {
+          "$ref": "#/definitions/AxisConfig"
+        },
+        "y_axes": {
+          "type": "array",
+          "description": "Additional Y axes (index 2+)",
+          "items": {
+            "$ref": "#/definitions/AxisConfig"
+          }
+        },
+        "series": {
+          "type": "array",
+          "description": "Data series configurations",
+          "items": {
+            "$ref": "#/definitions/SeriesConfig"
+          }
+        },
+        "annotations": {
+          "type": "array",
+          "description": "Annotation configurations",
+          "items": {
+            "$ref": "#/definitions/AnnotationConfig"
+          }
+        }
+      }
+    },
+    "AxisConfig": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "Data field name"
+        },
+        "label": {
+          "type": "string",
+          "description": "Display label"
+        },
+        "min": {
+          "type": "number",
+          "description": "Minimum value"
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum value"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "Whether axis is visible",
+          "default": true
+        },
+        "position": {
+          "type": "string",
+          "description": "Axis position",
+          "enum": ["left", "right", "top", "bottom"]
+        }
+      }
+    },
+    "SeriesConfig": {
+      "type": "object",
+      "required": ["point_name", "label"],
+      "properties": {
+        "point_name": {
+          "type": "string",
+          "description": "Data field name to map"
+        },
+        "label": {
+          "type": "string",
+          "description": "Legend label"
+        },
+        "color": {
+          "type": "string",
+          "description": "Hex color code",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "y_axis_index": {
+          "type": "integer",
+          "description": "Y axis index (0=left, 1=right, 2+=additional)",
+          "default": 0,
+          "minimum": 0
+        },
+        "type": {
+          "type": "string",
+          "description": "Series type",
+          "enum": ["line", "bar", "area", "scatter"]
+        },
+        "line_style": {
+          "type": "string",
+          "description": "Line style",
+          "enum": ["solid", "dashed", "dotted"]
+        },
+        "smooth": {
+          "type": "boolean",
+          "description": "Smooth line",
+          "default": false
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Data point symbol",
+          "enum": ["none", "circle", "rect", "triangle", "diamond"]
+        },
+        "symbol_size": {
+          "type": "number",
+          "description": "Symbol size",
+          "default": 4
+        },
+        "area_style": {
+          "$ref": "#/definitions/AreaStyle"
+        }
+      }
+    },
+    "AreaStyle": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "description": "Fill color"
+        },
+        "opacity": {
+          "type": "number",
+          "description": "Fill opacity",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.3
+        }
+      }
+    },
+    "AnnotationConfig": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Annotation type",
+          "enum": ["threshold", "range", "point"]
+        },
+        "value": {
+          "type": "number",
+          "description": "Threshold/point value"
+        },
+        "start": {
+          "type": "number",
+          "description": "Range start (for range type)"
+        },
+        "end": {
+          "type": "number",
+          "description": "Range end (for range type)"
+        },
+        "label": {
+          "type": "string",
+          "description": "Annotation label"
+        },
+        "color": {
+          "type": "string",
+          "description": "Annotation color",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "position": {
+          "type": "string",
+          "description": "Label position",
+          "enum": ["start", "middle", "end", "inside"]
+        }
+      }
+    },
+    "GlobalSettings": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Chart theme",
+          "enum": ["dark", "light"],
+          "default": "dark"
+        },
+        "default_time_range": {
+          "type": "string",
+          "description": "Default time range"
+        },
+        "chart_height": {
+          "type": "number",
+          "description": "Chart height in pixels",
+          "default": 500
+        },
+        "export_formats": {
+          "type": "array",
+          "description": "Available export formats",
+          "items": {
+            "type": "string",
+            "enum": ["png", "svg", "pdf", "jpeg"]
+          }
+        },
+        "grid": {
+          "$ref": "#/definitions/GridConfig"
+        },
+        "legend": {
+          "$ref": "#/definitions/LegendConfig"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/TooltipConfig"
+        },
+        "data_zoom": {
+          "$ref": "#/definitions/DataZoomConfig"
+        }
+      }
+    },
+    "GridConfig": {
+      "type": "object",
+      "properties": {
+        "show": {
+          "type": "boolean",
+          "description": "Show grid",
+          "default": true
+        },
+        "style": {
+          "type": "string",
+          "description": "Grid line style",
+          "enum": ["solid", "dashed", "dotted"]
+        },
+        "color": {
+          "type": "string",
+          "description": "Grid line color"
+        }
+      }
+    },
+    "LegendConfig": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string",
+          "description": "Legend position",
+          "enum": ["top", "bottom", "left", "right"]
+        },
+        "orient": {
+          "type": "string",
+          "description": "Legend orientation",
+          "enum": ["horizontal", "vertical"]
+        },
+        "show": {
+          "type": "boolean",
+          "description": "Show legend",
+          "default": true
+        }
+      }
+    },
+    "TooltipConfig": {
+      "type": "object",
+      "properties": {
+        "trigger": {
+          "type": "string",
+          "description": "Tooltip trigger",
+          "enum": ["item", "axis", "none"]
+        },
+        "show": {
+          "type": "boolean",
+          "description": "Show tooltip",
+          "default": true
+        }
+      }
+    },
+    "DataZoomConfig": {
+      "type": "object",
+      "properties": {
+        "show": {
+          "type": "boolean",
+          "description": "Show data zoom",
+          "default": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Zoom type",
+          "enum": ["inside", "slider", "both"]
+        },
+        "x_axis_index": {
+          "type": "array",
+          "description": "X axis indexes to zoom",
+          "items": {
+            "type": "number"
+          }
+        },
+        "y_axis_index": {
+          "type": "array",
+          "description": "Y axis indexes to zoom",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

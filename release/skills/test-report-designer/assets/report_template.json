@@ -1,0 +1,63 @@
+{
+  "title": "测试报告 - {test_run_id}",
+  "metadata": {
+    "base_run_id": "{base_run_id}",
+    "test_run_id": "{test_run_id}",
+    "generated_at": "{timestamp}",
+    "test_purpose": "{从交互获取的测试目的}",
+    "focus_metrics": "{从交互获取的重点指标}",
+    "tester": "{测试人员}",
+    "base_version": "{基准版本定义}"
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "title": "测试结论摘要",
+      "content": "{由LLM根据实际数据生成的核心发现和建议，200+字符}"
+    },
+    {
+      "id": "overview",
+      "title": "1. 测试概述",
+      "content": "{由LLM根据实际数据和交互信息生成：测试目的、范围说明}"
+    },
+    {
+      "id": "environment",
+      "title": "2. 测试环境与配置",
+      "content": "{由LLM根据实际数据生成：软件环境、工具版本、关键配置}"
+    },
+    {
+      "id": "results",
+      "title": "3. 测试结果详情",
+      "content": "{由LLM根据实际数据生成的业务洞察，非数据罗列}",
+      "table": {
+        "headers": ["测试用例", "状态", "关键指标", "备注"],
+        "rows": []
+      }
+    },
+    {
+      "id": "comparison",
+      "title": "4. 对比分析",
+      "content": "{由LLM根据实际数据生成：与基准的差异分析、变化原因}"
+    },
+    {
+      "id": "deep_analysis",
+      "title": "5. 专项分析",
+      "content": "{由LLM根据实际数据生成：深度洞察、规律发现、异常识别}"
+    },
+    {
+      "id": "cases",
+      "title": "6. 典型案例分析",
+      "content": "{由LLM根据实际数据生成：值得关注的具体例子及启示}"
+    },
+    {
+      "id": "recommendations",
+      "title": "7. 问题与改进建议",
+      "content": "{由LLM根据实际数据生成：发现的问题清单、可操作的改进方向}"
+    },
+    {
+      "id": "appendix",
+      "title": "8. 附录",
+      "content": "数据文件路径、脚本链接、相关文档链接"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+[project]
+name = "k2-kunshan-print"
+version = "2.0.0"
+description = "昆山出差报销自动化处理技能"
+requires-python = ">=3.11"
+dependencies = [
+    "pdfplumber>=0.11.0",
+    "openpyxl>=3.1.0",
+    "requests>=2.31.0",
+    "pywin32>=306",
+    "comtypes>=1.2.0",
+]
+
+[tool.uv]
+dev-dependencies = []

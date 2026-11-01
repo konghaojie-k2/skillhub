@@ -1,0 +1,20 @@
+{
+  "project": "{PROJECT_NAME}",
+  "project_cn": "{PROJECT_DESCRIPTION}",
+  "current_phase": "presales",
+  "phases": {
+    "presales": { "status": "in_progress", "start_date": "{START_DATE}", "target_end": null },
+    "implementation": { "status": "pending", "start_date": null, "target_end": null },
+    "operations": { "status": "pending", "start_date": null, "target_end": null }
+  },
+  "last_update": "{LAST_UPDATE}",
+  "active_threads": [],
+  "pending_decisions": [],
+  "inbox_items": 0,
+  "agent_notes": [
+    "本文件是项目全局状态的'快速加载器'。Agent 每次进入项目请先读取此文件。",
+    "若检测到 inbox 有新文件，主动提醒人类整理。",
+    "若检测到 git diff 中有新增 md 文件，检查是否涉及新的技术决策。",
+    "注意：本文件只包含全局状态，个人上下文请在 user-contexts/ 中查找。"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "version": "1.0",
+  "description": "电解槽电压监控双轴图表",
+  "charts": [
+    {
+      "id": "chart-voltage-dual-axis",
+      "title": "槽电压监控曲线",
+      "type": "line",
+      "active": true,
+      "x_axis": {
+        "field": "k_ts",
+        "label": "时间",
+        "visible": true
+      },
+      "y_axis": {
+        "field": "potVolt",
+        "label": "电压 (mV)",
+        "min": 3200,
+        "max": 4200,
+        "visible": true,
+        "position": "left"
+      },
+      "y_axis2": {
+        "field": "seriesCurrent",
+        "label": "电流 (kA)",
+        "min": 350,
+        "max": 650,
+        "visible": true,
+        "position": "right"
+      },
+      "series": [
+        {
+          "point_name": "potVolt",
+          "label": "槽电压",
+          "color": "#3b82f6",
+          "y_axis_index": 0,
+          "type": "line",
+          "line_style": "solid",
+          "smooth": false,
+          "symbol": "none"
+        },
+        {
+          "point_name": "settingVolt",
+          "label": "设定电压",
+          "color": "#ef4444",
+          "y_axis_index": 0,
+          "type": "line",
+          "line_style": "dashed",
+          "smooth": false,
+          "symbol": "none"
+        },
+        {
+          "point_name": "seriesCurrent",
+          "label": "系列电流",
+          "color": "#f59e0b",
+          "y_axis_index": 1,
+          "type": "line",
+          "line_style": "solid",
+          "smooth": false,
+          "symbol": "none"
+        },
+        {
+          "point_name": "swing",
+          "label": "摆动",
+          "color": "#22c55e",
+          "y_axis_index": 0,
+          "type": "line",
+          "line_style": "solid",
+          "smooth": false,
+          "symbol": "none"
+        }
+      ],
+      "annotations": [
+        {
+          "type": "threshold",
+          "value": 4000,
+          "label": "电压上限",
+          "color": "#9ca3af",
+          "position": "end"
+        },
+        {
+          "type": "threshold",
+          "value": 3800,
+          "label": "电压下限",
+          "color": "#9ca3af",
+          "position": "end"
+        }
+      ]
+    }
+  ],
+  "global_settings": {
+    "theme": "light",
+    "chart_height": 600,
+    "grid": {
+      "show": true,
+      "style": "dashed",
+      "color": "#e5e7eb"
+    },
+    "legend": {
+      "position": "bottom",
+      "orient": "horizontal",
+      "show": true
+    },
+    "tooltip": {
+      "trigger": "axis",
+      "show": true
+    }
+  }
+}

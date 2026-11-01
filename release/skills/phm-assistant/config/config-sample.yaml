@@ -1,0 +1,241 @@
+# PHM Assistant 配置示例
+# 复制此文件为 config.yaml 并根据实际情况修改
+
+# 设备信息
+device:
+  device_id: "pump_001"
+  device_type: "centrifugal_pump"  # 设备类型: centrifugal_pump, motor, compressor
+  name: "1号离心泵"
+  location: "车间A"
+
+# 数据配置
+data:
+  # 数据源
+  source:
+    type: "file"  # file, database, api
+    path: "./data/pump_data.csv"
+
+  # 数据清洗配置
+  cleaning:
+    denoise:
+      enabled: true
+      method: "moving_avg"  # moving_avg, kalman, lowpass
+      window: 5
+
+    missing_value:
+      enabled: true
+      method: "interpolation"  # interpolation, forward_fill, mean, knn
+      strategy: "linear"
+
+    outliers:
+      enabled: true
+      method: "iqr"  # iqr, zscore, isolation_forest
+      threshold: 1.5
+
+# 设备层级结构
+hierarchy:
+  depth: 2  # 层级深度
+
+  components:
+    bearing:
+      name: "轴承"
+      weight: 0.5  # 权重
+      level: 1
+      parent: null
+      metrics:
+        - vibration_x
+        - vibration_y
+        - bearing_temp
+      critical: true
+
+    seal:
+      name: "密封"
+      weight: 0.3
+      level: 1
+      parent: null
+      metrics:
+        - seal_pressure
+        - leakage_rate
+      critical: false
+
+    motor:
+      name: "电机"
+      weight: 0.2
+      level: 1
+      parent: null
+      metrics:
+        - motor_current
+        - motor_temp
+        - rpm
+      critical: false
+
+# 测点配置
+metrics:
+  # 观测量 (需要预测/监控的健康指标)
+  targets:
+    vibration_x:
+      component: "bearing"
+      description: "X向振动"
+      unit: "mm/s"
+      alarm_threshold: 10.0
+
+    vibration_y:
+      component: "bearing"
+      description: "Y向振动"
+      unit: "mm/s"
+      alarm_threshold: 10.0
+
+    bearing_temp:
+      component: "bearing"
+      description: "轴承温度"
+      unit: "°C"
+      alarm_threshold: 80.0
+
+  # 因子量 (影响观测量表现的因素)
+  factors:
+    rpm:
+      description: "转速"
+      unit: "rpm"
+      type: "operating_condition"
+
+    load:
+      description: "负载"
+      unit: "%"
+      type: "operating_condition"
+
+    ambient_temp:
+      description: "环境温度"
+      unit: "°C"
+      type: "environment"
+
+  # 目标量 → 因子量映射
+  target_factor_mapping:
+    vibration_x: [rpm, load, bearing_temp]
+    vibration_y: [rpm, load, bearing_temp]
+    bearing_temp: [rpm, load, ambient_temp]
+
+# 工况切分配置
+segmentation:
+  method: "threshold"  # threshold, clustering, rules
+
+  threshold:
+    signal: "rpm"
+    thresholds:
+      stop: 100
+      low_load: 800
+    min_duration: 300  # 秒
+
+  clustering:
+    signals: [rpm, load]
+    n_clusters: 3
+    method: "kmeans"
+
+# 模型配置
+model:
+  type: "xgboost"  # xgboost, random_forest, lstm, linear_regression
+
+  params:
+    max_depth: 6
+    learning_rate: 0.1
+    n_estimators: 100
+    min_child_weight: 1
+    subsample: 0.8
+    colsample_bytree: 0.8
+
+  cv:
+    n_folds: 5
+    scoring: "r2"
+
+  metrics:
+    - r2
+    - mape
+    - rmse
+
+# 偏差分析配置
+deviation:
+  # 偏差阈值
+  delta: 0.15  # 允许 15% 偏差
+
+  # 评价规则
+  evaluation_rule: "spc"  # simple, spc, sliding_window
+
+  spc:
+    n_std: 3.0
+
+  sliding_window:
+    window_size: 100
+    n_std: 3.0
+
+# 健康评分配置
+health_score:
+  method: "weighted_avg"
+
+  thresholds:
+    alarm: 0.6
+    warning: 0.8
+
+  component:
+    aggregation: "mean"
+    critical:
+      - bearing
+
+  equipment:
+    aggregation: "weighted_avg"
+
+# 预警规则
+alarm:
+  trigger:
+    - name: "low_score"
+      condition: "equipment_score < alarm_threshold"
+      level: "alarm"
+
+    - name: "critical_component"
+      condition: "critical_component_score < 0.5"
+      level: "alarm"
+
+    - name: "degradation_trend"
+      condition: "score_trend < -0.1"
+      level: "warning"
+
+# 知识库
+knowledge_base:
+  patterns:
+    vibration_high:
+      symptoms:
+        - "振动值超过阈值"
+      possible_causes:
+        - "轴承磨损"
+        - "转子不平衡"
+        - "对中不良"
+        - "螺栓松动"
+      recommendations:
+        - "检查轴承状态"
+        - "进行动平衡校正"
+        - "检查对中情况"
+        - "紧固螺栓"
+
+    temperature_high:
+      symptoms:
+        - "温度超过阈值"
+      possible_causes:
+        - "润滑不良"
+        - "冷却故障"
+        - "过载运行"
+      recommendations:
+        - "检查润滑油位"
+        - "检查冷却系统"
+        - "降低负载"
+
+# 输出配置
+output:
+  # 输出目录
+  dir: "./phm_pump_001"
+
+  # 报告格式
+  report_format:
+    - "markdown"
+    - "json"
+
+  # 保存模型
+  save_model: true
+  model_path: "./models"

@@ -1,0 +1,19 @@
+{
+  "title": "测试报告 - test_001",
+  "metadata": {
+    "base_run_id": "base_001",
+    "test_run_id": "test_001",
+    "generated_at": "2024-03-26T10:00:00Z"
+  },
+  "sections": [
+    {"id": "summary", "title": "📊 测试结论摘要", "content": "这是测试结论摘要的内容，包含业务洞察和分析。测试结果显示系统性能良好。"},
+    {"id": "overview", "title": "1. 测试概述", "content": "测试概述内容，说明测试目的和范围。"},
+    {"id": "environment", "title": "2. 测试环境与配置", "content": "测试环境说明。"},
+    {"id": "results", "title": "3. 测试结果详情", "content": "测试结果详情，包含数据分析和业务洞察。"},
+    {"id": "comparison", "title": "4. 对比分析", "content": "与基准版本的对比分析，说明差异和原因。"},
+    {"id": "deep_analysis", "title": "5. 专项分析", "content": "深度分析内容，包含规律发现和异常识别。"},
+    {"id": "cases", "title": "6. 典型案例分析", "content": "典型案例分析，说明具体例子和启示。"},
+    {"id": "recommendations", "title": "7. 问题与改进建议", "content": "问题清单和改进建议。"},
+    {"id": "appendix", "title": "8. 附录", "content": "附录内容。"}
+  ]
+}

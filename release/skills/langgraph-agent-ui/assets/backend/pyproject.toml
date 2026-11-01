@@ -1,0 +1,28 @@
+[project]
+name = "your-agent-app"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    # LangGraph & LangChain
+    "langgraph",
+    "langchain",
+    "langchain-openai",
+    "langchain-core",
+
+    # Web 框架
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+
+    # 工具库
+    "pydantic",
+    "python-dotenv",
+]
+
+[tool.uv]
+dev-dependencies = []
+
+[[tool.uv.index]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true

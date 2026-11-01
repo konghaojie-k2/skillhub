@@ -1,0 +1,7 @@
+{
+  "title": "测试报告 - test_001",
+  "sections": [
+    {"id": "overview", "title": "1. 测试概述", "content": "测试概述内容"},
+    {"id": "summary", "title": "📊 测试结论摘要", "content": "测试结论"}
+  ]
+}
